@@ -1,0 +1,2269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooler Expense Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Default Light Theme Variables */
+            --bg-primary: #f3f4f6; /* gray-100 */
+            --bg-secondary: #ffffff; /* white */
+            --bg-accent: #3b82f6; /* blue-500 */
+            --bg-accent-hover: #2563eb; /* blue-600 */
+            --bg-header: #3b82f6; /* blue-600 */
+            --text-primary: #1f2937; /* gray-800 */
+            --text-secondary: #4b5563; /* gray-600 */
+            --text-accent: #ffffff; /* white on accent bg */
+            --text-on-header: #ffffff;
+            --border-color: #d1d5db; /* gray-300 */
+            --border-focus-color: #3b82f6; /* blue-500 */
+            --input-bg: #ffffff;
+            --input-text: #1f2937;
+            --input-placeholder: #9ca3af; /* gray-400 */
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-color-lg: rgba(0,0,0,0.1);
+            --button-primary-bg: #3b82f6;
+            --button-primary-text: #ffffff;
+            --button-primary-hover-bg: #2563eb;
+            --button-danger-bg: #ef4444; /* red-500 */
+            --button-danger-text: #ffffff;
+            --button-danger-hover-bg: #dc2626; /* red-600 */
+            --button-success-bg: #22c55e; /* green-500 */
+            --button-success-text: #ffffff;
+            --button-success-hover-bg: #16a34a; /* green-600 */
+            --button-warning-bg: #f59e0b; /* amber-500 */
+            --button-warning-text: #ffffff;
+            --button-warning-hover-bg: #d97706; /* amber-600 */
+            --button-neutral-bg: #e5e7eb; /* gray-200 */
+            --button-neutral-text: #374151; /* gray-700 */
+            --button-neutral-hover-bg: #d1d5db; /* gray-300 */
+            --table-header-bg: #f9fafb; /* gray-50 */
+            --table-row-hover-bg: #f0f9ff; /* blue-50 (light theme specific) */
+            --modal-bg: var(--bg-secondary);
+            --modal-overlay-bg: rgba(17, 24, 39, 0.75); /* gray-900 with opacity */
+            --toast-bg: #374151; /* gray-700 */
+            --toast-text: #ffffff;
+            --toast-success-bg: #16a34a; /* green-700 */
+            --toast-error-bg: #b91c1c; /* red-700 */
+            --toast-warning-bg: #b45309; /* amber-700 */
+            --scrollbar-track: #f1f1f1;
+            --scrollbar-thumb: #888;
+            --scrollbar-thumb-hover: #555;
+            --link-color: #3b82f6;
+            --link-hover-color: #1d4ed8;
+        }
+
+        body.theme-dark {
+            --bg-primary: #111827; /* gray-900 */
+            --bg-secondary: #1f2937; /* gray-800 */
+            --bg-accent: #60a5fa; /* blue-400 */
+            --bg-accent-hover: #3b82f6; /* blue-500 */
+            --bg-header: #1e40af; /* blue-800 */
+            --text-primary: #f3f4f6; /* gray-100 */
+            --text-secondary: #9ca3af; /* gray-400 */
+            --text-accent: #111827; /* gray-900 on accent bg */
+            --text-on-header: #e0f2fe; /* light blue */
+            --border-color: #374151; /* gray-700 */
+            --border-focus-color: #60a5fa; /* blue-400 */
+            --input-bg: #374151; /* gray-700 */
+            --input-text: #f3f4f6;
+            --input-placeholder: #6b7280; /* gray-500 */
+            --shadow-color: rgba(255, 255, 255, 0.05);
+            --shadow-color-lg: rgba(0,0,0,0.3);
+            --button-primary-bg: #60a5fa;
+            --button-primary-text: #111827;
+            --button-primary-hover-bg: #3b82f6;
+            --button-danger-bg: #f87171; /* red-400 */
+            --button-danger-hover-bg: #ef4444; /* red-500 */
+            --button-success-bg: #4ade80; /* green-400 */
+            --button-success-hover-bg: #22c55e; /* green-500 */
+            --button-warning-bg: #fbbf24; /* amber-400 */
+            --button-warning-hover-bg: #f59e0b; /* amber-500 */
+            --button-neutral-bg: #374151; /* gray-700 */
+            --button-neutral-text: #d1d5db; /* gray-300 */
+            --button-neutral-hover-bg: #4b5563; /* gray-600 */
+            --table-header-bg: #374151; /* gray-700 */
+            --table-row-hover-bg: #2c3a4e; /* darker gray-blue */
+            --modal-overlay-bg: rgba(0, 0, 0, 0.85);
+            --toast-bg: #e5e7eb; /* gray-200 */
+            --toast-text: #1f2937; /* gray-800 */
+            --scrollbar-track: #374151;
+            --scrollbar-thumb: #6b7280;
+            --scrollbar-thumb-hover: #9ca3af;
+            --link-color: #60a5fa;
+            --link-hover-color: #93c5fd;
+        }
+
+        body.theme-neon {
+            --bg-primary: #0d0c0f; /* very dark */
+            --bg-secondary: #1a181f; /* dark purple-ish */
+            --bg-accent: #ff00ff; /* magenta */
+            --bg-accent-hover: #cc00cc;
+            --bg-header: #2a002a; /* dark magenta */
+            --text-primary: #e0e0e0; /* light gray */
+            --text-secondary: #a0a0a0; /* medium gray */
+            --text-accent: #0d0c0f;
+            --text-on-header: #ff80ff; /* light magenta */
+            --border-color: #4a004a; /* dark magenta border */
+            --border-focus-color: #00ffff; /* cyan */
+            --input-bg: #25222b;
+            --input-text: #e0e0e0;
+            --input-placeholder: #777;
+            --shadow-color: rgba(255, 0, 255, 0.3);
+            --shadow-color-lg: rgba(0, 255, 255, 0.2);
+            --button-primary-bg: #ff00ff;
+            --button-primary-text: #0d0c0f;
+            --button-primary-hover-bg: #cc00cc;
+            --button-danger-bg: #ff3333; /* neon red */
+            --button-danger-hover-bg: #cc0000;
+            --button-success-bg: #33ff33; /* neon green */
+            --button-success-hover-bg: #00cc00;
+            --button-warning-bg: #ffff33; /* neon yellow */
+            --button-warning-text: #0d0c0f;
+            --button-warning-hover-bg: #cccc00;
+            --button-neutral-bg: #333;
+            --button-neutral-text: #00ffff; /* cyan text */
+            --button-neutral-hover-bg: #444;
+            --table-header-bg: #2a002a;
+            --table-row-hover-bg: #3d0a3d;
+            --modal-overlay-bg: rgba(0,0,0, 0.9);
+            --toast-bg: #1a181f;
+            --toast-text: #00ffff;
+            --toast-success-bg: #003300;
+            --toast-error-bg: #330000;
+            --toast-warning-bg: #333300;
+            --scrollbar-track: #2a002a;
+            --scrollbar-thumb: #ff00ff;
+            --scrollbar-thumb-hover: #00ffff;
+            --link-color: #00ffff;
+            --link-hover-color: #80ffff;
+        }
+        body.theme-neon .nav-button.active,
+        body.theme-neon .tab-button.active {
+            border-color: var(--border-focus-color) !important;
+            color: var(--border-focus-color) !important;
+            text-shadow: 0 0 5px var(--border-focus-color);
+        }
+        body.theme-neon input:focus,
+        body.theme-neon select:focus,
+        body.theme-neon textarea:focus {
+            box-shadow: 0 0 8px var(--border-focus-color), inset 0 0 5px var(--border-focus-color);
+        }
+         body.theme-neon button {
+            text-shadow: 0 0 3px rgba(0,0,0,0.7);
+        }
+        body.theme-neon .shadow-lg {
+             box-shadow: 0 0 15px var(--shadow-color), 0 0 5px var(--shadow-color-lg);
+        }
+
+
+        body.theme-ocean {
+            --bg-primary: #e0f7fa; /* very light cyan */
+            --bg-secondary: #ffffff;
+            --bg-accent: #00796b; /* teal */
+            --bg-accent-hover: #004d40; /* dark teal */
+            --bg-header: #00796b; /* teal */
+            --text-primary: #004d40; /* dark teal text */
+            --text-secondary: #006064; /* cyan-gray */
+            --text-accent: #ffffff;
+            --text-on-header: #e0f7fa;
+            --border-color: #b2dfdb; /* light teal border */
+            --border-focus-color: #00796b; /* teal */
+            --input-bg: #ffffff;
+            --input-text: #004d40;
+            --input-placeholder: #80cbc4; /* lighter teal */
+            --shadow-color: rgba(0, 121, 107, 0.15);
+            --shadow-color-lg: rgba(0, 77, 64, 0.1);
+            --button-primary-bg: #00796b;
+            --button-primary-text: #ffffff;
+            --button-primary-hover-bg: #004d40;
+            --button-danger-bg: #d32f2f; /* muted red */
+            --button-danger-hover-bg: #c62828;
+            --button-success-bg: #388e3c; /* muted green */
+            --button-success-hover-bg: #2e7d32;
+            --button-warning-bg: #fbc02d; /* muted yellow */
+            --button-warning-text: #004d40;
+            --button-warning-hover-bg: #f9a825;
+            --button-neutral-bg: #b2dfdb; /* light teal */
+            --button-neutral-text: #004d40;
+            --button-neutral-hover-bg: #80cbc4;
+            --table-header-bg: #b2dfdb; /* light teal */
+            --table-row-hover-bg: #e0f2f1; /* very light teal */
+            --modal-overlay-bg: rgba(0, 77, 64, 0.7);
+            --toast-bg: #004d40;
+            --toast-text: #e0f7fa;
+            --scrollbar-track: #b2dfdb;
+            --scrollbar-thumb: #00796b;
+            --scrollbar-thumb-hover: #004d40;
+            --link-color: #00796b;
+            --link-hover-color: #004d40;
+        }
+
+        /* Base body styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease, filter 0.5s ease-out; /* Added filter transition */
+        }
+
+        /* Shader Styles */
+        body.shader-grayscale { filter: grayscale(100%); }
+        body.shader-sepia { filter: sepia(80%); }
+        body.shader-hue-rotate-mild { filter: hue-rotate(45deg); }
+        body.shader-hue-rotate-strong { filter: hue-rotate(180deg); }
+        body.shader-invert { filter: invert(100%) hue-rotate(180deg); } /* Invert + hue to keep some color sense */
+        body.shader-brightness { filter: brightness(1.5); }
+        body.shader-contrast { filter: contrast(175%); }
+        body.shader-blur { filter: blur(2px); }
+        body.shader-saturate { filter: saturate(200%); }
+        body.shader-vintage-overlay::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(120, 80, 50, 0.15);
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            z-index: 10000; /* Ensure overlay is on top */
+            transition: opacity 0.5s ease-out;
+            opacity: 1;
+        }
+        body:not(.shader-vintage-overlay)::before { /* Hide overlay if not active */
+             opacity: 0;
+        }
+
+
+        .modal {
+            display: none; /* Hidden by default */
+            background-color: var(--modal-overlay-bg);
+        }
+        .modal.active {
+            display: flex; /* Show when active */
+        }
+        .modal-content {
+            background-color: var(--modal-bg);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 10px;
+            border: 2px solid var(--scrollbar-track); /* Creates padding around thumb */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover);
+        }
+
+        .tab-button {
+            color: var(--text-secondary);
+            border-color: transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .tab-button:hover {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        .tab-button.active {
+            border-color: var(--border-focus-color);
+            color: var(--border-focus-color);
+            font-weight: 600;
+        }
+        .nav-button {
+            color: var(--text-on-header);
+            opacity: 0.8;
+            transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+        }
+        .nav-button:hover {
+            background-color: var(--bg-accent-hover);
+            opacity: 1;
+        }
+        .nav-button.active {
+            background-color: var(--bg-accent-hover); /* A slightly darker blue for active nav */
+            opacity: 1;
+            font-weight: 600;
+        }
+        .table-cell-truncate {
+            max-width: 150px; /* Adjust as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .report-summary-card, .dashboard-card, .settings-card {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem; /* p-6 */
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color-lg); /* shadow-lg */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Cooler Button Effects */
+        button, .button {
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease-out, box-shadow 0.2s ease;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+        }
+        button:hover, .button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        button:active, .button:active {
+            transform: translateY(0px) scale(0.98);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background-color: var(--button-primary-bg); color: var(--button-primary-text);
+        }
+        .btn-primary:hover { background-color: var(--button-primary-hover-bg); }
+
+        .btn-danger {
+            background-color: var(--button-danger-bg); color: var(--button-danger-text);
+        }
+        .btn-danger:hover { background-color: var(--button-danger-hover-bg); }
+
+        .btn-success {
+            background-color: var(--button-success-bg); color: var(--button-success-text);
+        }
+        .btn-success:hover { background-color: var(--button-success-hover-bg); }
+
+        .btn-warning {
+            background-color: var(--button-warning-bg); color: var(--button-warning-text);
+        }
+        .btn-warning:hover { background-color: var(--button-warning-hover-bg); }
+
+        .btn-neutral {
+            background-color: var(--button-neutral-bg); color: var(--button-neutral-text); border: 1px solid var(--border-color);
+        }
+        .btn-neutral:hover { background-color: var(--button-neutral-hover-bg); }
+
+        /* Cooler Textbox Effects */
+        input[type="text"], input[type="number"], input[type="date"], input[type="file"], select, textarea {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 0.75rem; /* p-3 */
+            box-shadow: 0 1px 2px 0 var(--shadow-color);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+        input[type="text"]::placeholder, input[type="number"]::placeholder, textarea::placeholder {
+            color: var(--input-placeholder);
+        }
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="file"]:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--border-focus-color);
+            box-shadow: 0 0 0 3px var(--border-focus-color_translucent, rgba(59, 130, 246, 0.3)), /* Fallback for themes without specific translucent */
+                        inset 0 1px 2px 0 var(--shadow-color);
+        }
+        body.theme-dark input[type="text"]:focus,
+        body.theme-dark input[type="number"]:focus,
+        body.theme-dark input[type="date"]:focus,
+        body.theme-dark input[type="file"]:focus,
+        body.theme-dark select:focus,
+        body.theme-dark textarea:focus {
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.4), inset 0 1px 2px 0 var(--shadow-color);
+        }
+        body.theme-ocean input[type="text"]:focus,
+        body.theme-ocean input[type="number"]:focus,
+        body.theme-ocean input[type="date"]:focus,
+        body.theme-ocean input[type="file"]:focus,
+        body.theme-ocean select:focus,
+        body.theme-ocean textarea:focus {
+            box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.3), inset 0 1px 2px 0 var(--shadow-color);
+        }
+
+
+        /* Theme/Shader Selector Card */
+        .theme-card, .shader-card {
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary); /* Ensure text inside card is visible */
+        }
+        .theme-card:hover, .shader-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px var(--shadow-color-lg);
+            border-color: var(--border-focus-color);
+        }
+        .theme-card.active-theme, .shader-card.active-shader {
+            border-color: var(--border-focus-color);
+            box-shadow: 0 0 0 3px var(--border-focus-color), 0 4px 8px var(--shadow-color-lg);
+        }
+        .theme-color-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Header styles */
+        header {
+            background-color: var(--bg-header);
+            color: var(--text-on-header);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Table styles */
+        table thead {
+            background-color: var(--table-header-bg);
+            transition: background-color 0.3s ease;
+        }
+        table thead th {
+            color: var(--text-secondary);
+        }
+        table tbody tr:hover {
+            background-color: var(--table-row-hover-bg);
+        }
+        table tbody td {
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Toast Notification Theming */
+        #toastNotification {
+            background-color: var(--toast-bg);
+            color: var(--toast-text);
+            box-shadow: 0 10px 25px -5px var(--shadow-color-lg), 0 8px 10px -6px var(--shadow-color);
+        }
+        #toastNotification.bg-green-600 { background-color: var(--toast-success-bg) !important; color: var(--toast-text) !important;}
+        #toastNotification.bg-red-600 { background-color: var(--toast-error-bg) !important; color: var(--toast-text) !important;}
+        #toastNotification.bg-yellow-500 { background-color: var(--toast-warning-bg) !important; color: var(--toast-text) !important;}
+
+        /* Link styles */
+        a, .link-style {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        a:hover, .link-style:hover {
+            color: var(--link-hover-color);
+            text-decoration: underline;
+        }
+        .text-green-600 { color: var(--button-success-bg); }
+        .text-red-600 { color: var(--button-danger-bg); }
+        .text-blue-600 { color: var(--button-primary-bg); }
+
+    </style>
+</head>
+<body>
+
+    <header class="p-6 shadow-md sticky top-0 z-40">
+        <div class="container mx-auto flex flex-wrap justify-between items-center">
+            <h1 class="text-3xl font-bold mb-2 md:mb-0">Expense Tracker</h1>
+            <nav>
+                <button id="navDashboard" class="nav-button px-4 py-2 rounded-lg transition-colors">Dashboard</button>
+                <button id="navReports" class="nav-button px-4 py-2 rounded-lg transition-colors ml-2">Reports</button>
+                <button id="navSettings" class="nav-button px-4 py-2 rounded-lg transition-colors ml-2">Settings</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-6">
+        <section id="dashboardView" class="hidden">
+            <h2 class="text-2xl font-semibold mb-6" style="color: var(--text-primary);">Dashboard</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-semibold" style="color: var(--button-success-bg);">Total Income</h3>
+                    <p class="text-3xl font-bold mt-2">৳<span id="totalIncomeDisplay">0.00</span></p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-semibold" style="color: var(--button-danger-bg);">Total Expenditure</h3>
+                    <p class="text-3xl font-bold mt-2">৳<span id="totalExpenditureDisplay">0.00</span></p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-semibold" style="color: var(--button-primary-bg);">Balance</h3>
+                    <p class="text-3xl font-bold mt-2">৳<span id="balanceDisplay">0.00</span></p>
+                </div>
+            </div>
+
+            <div class="settings-card mb-8">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">Add New Transaction</h3>
+                <form id="addTransactionForm" class="space-y-6">
+                    <div>
+                        <label for="transactionType" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Type</label>
+                        <select id="transactionType" name="transactionType" class="w-full">
+                            <option value="income">Income</option>
+                            <option value="expense">Expenditure</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="transactionHead" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Head</label>
+                        <select id="transactionHead" name="transactionHead" class="w-full">
+                        </select>
+                    </div>
+                    <div>
+                        <label for="transactionSubHead" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Sub-Head (Optional)</label>
+                        <select id="transactionSubHead" name="transactionSubHead" class="w-full">
+                            <option value="">-- Select Sub-Head --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="transactionAmount" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Amount (৳)</label>
+                        <input type="number" id="transactionAmount" name="transactionAmount" required class="w-full" placeholder="e.g., 5000" step="0.01">
+                    </div>
+                    <div>
+                        <label for="transactionDate" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Date</label>
+                        <input type="date" id="transactionDate" name="transactionDate" required class="w-full">
+                    </div>
+                    <div>
+                        <label for="transactionDescription" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Description (Optional)</label>
+                        <textarea id="transactionDescription" name="transactionDescription" rows="3" class="w-full" placeholder="e.g., Monthly salary"></textarea>
+                    </div>
+                    <button type="submit" class="w-full btn-primary font-semibold py-3 px-4 rounded-lg shadow-md">Add Transaction</button>
+                </form>
+            </div>
+
+            <div class="settings-card">
+                <h3 class="text-xl font-semibold mb-4" style="color: var(--text-primary);">All Transactions</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6 items-end">
+                    <div>
+                        <label for="dashboardSearch" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Search</label>
+                        <input type="text" id="dashboardSearch" placeholder="Date, Name, Desc..." class="w-full">
+                    </div>
+                    <div>
+                        <label for="dashboardSortDate" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Sort by Date</label>
+                        <select id="dashboardSortDate" class="w-full">
+                            <option value="date_desc">Newest First</option>
+                            <option value="date_asc">Oldest First</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="dashboardSortAmount" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Sort by Amount</label>
+                        <select id="dashboardSortAmount" class="w-full">
+                            <option value="amount_desc">High to Low</option>
+                            <option value="amount_asc">Low to High</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="dashboardSortAddedDate" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Sort by Added</label>
+                        <select id="dashboardSortAddedDate" class="w-full">
+                            <option value="added_desc">Newest Added</option>
+                            <option value="added_asc">Oldest Added</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y" style="border-color: var(--border-color);">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Type</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Head</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Sub-Head</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Amount (৳)</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardTransactionsTableBody" class="divide-y" style="border-color: var(--border-color);">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="reportsView" class="hidden">
+            <h2 class="text-2xl font-semibold mb-6" style="color: var(--text-primary);">Reports</h2>
+
+            <div class="settings-card mb-8">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">Filter & View Reports</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 items-end">
+                    <div>
+                        <label for="reportStartDate" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Start Date</label>
+                        <input type="date" id="reportStartDate" class="w-full">
+                    </div>
+                    <div>
+                        <label for="reportEndDate" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">End Date</label>
+                        <input type="date" id="reportEndDate" class="w-full">
+                    </div>
+                    <div>
+                        <label for="reportHeadFilter" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Filter by Head</label>
+                        <select id="reportHeadFilter" class="w-full">
+                            <option value="all">All Heads</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="reportSearchTerm" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Search Transactions</label>
+                        <input type="text" id="reportSearchTerm" placeholder="Description, head..." class="w-full">
+                    </div>
+                    <div>
+                        <label for="reportSortBy" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Sort By</label>
+                        <select id="reportSortBy" class="w-full">
+                            <option value="date_desc">Date (Newest First)</option>
+                            <option value="date_asc">Date (Oldest First)</option>
+                            <option value="amount_desc">Amount (High to Low)</option>
+                            <option value="amount_asc">Amount (Low to High)</option>
+                        </select>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 lg:col-span-1 flex space-x-2">
+                         <button id="generateDetailedReportBtn" class="w-full btn-primary font-semibold py-3 px-4 rounded-lg shadow-md">View Transactions</button>
+                    </div>
+                     <div class="col-span-1 md:col-span-2 lg:col-span-2 flex space-x-2">
+                         <button id="generateHeadsOverviewBtn" class="w-full font-semibold py-3 px-4 rounded-lg shadow-md" style="background-color: var(--bg-accent); color: var(--text-accent);">View Heads Overview</button>
+                    </div>
+                </div>
+
+                <div id="reportSummaryDisplay" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                     <div class="report-summary-card">
+                        <h4 class="text-lg font-semibold" style="color: var(--button-success-bg);">Total Income in Report</h4>
+                        <p class="text-2xl font-bold mt-1">৳<span id="reportTotalIncome">0.00</span></p>
+                    </div>
+                    <div class="report-summary-card">
+                        <h4 class="text-lg font-semibold" style="color: var(--button-danger-bg);">Total Expenditure in Report</h4>
+                        <p class="text-2xl font-bold mt-1">৳<span id="reportTotalExpense">0.00</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="detailedReportOutput" class="settings-card mb-8">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">Detailed Transactions Report</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y" style="border-color: var(--border-color);">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Type</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Head</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Sub-Head</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Amount (৳)</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportResultsTableBody" class="divide-y" style="border-color: var(--border-color);">
+                            <tr><td colspan="6" class="px-6 py-10 text-center" style="color: var(--text-secondary);">Use the filters above and click "View Transactions" to generate a report.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="headsOverviewReportOutput" class="hidden settings-card">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">All Heads & Sub-Heads Overview</h3>
+                 <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y" style="border-color: var(--border-color);">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Type</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Parent Head</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Sub-Head</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Total Amount (৳)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="headsOverviewTableBody" class="divide-y" style="border-color: var(--border-color);">
+                             <tr><td colspan="4" class="px-6 py-10 text-center" style="color: var(--text-secondary);">Use the date filters and click "View Heads & Sub-Heads Overview" to generate this report.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="settingsView" class="hidden">
+            <h2 class="text-2xl font-semibold mb-6" style="color: var(--text-primary);">Settings</h2>
+            <div class="mb-6 border-b" style="border-color: var(--border-color);">
+                <nav class="flex space-x-1 sm:space-x-2 md:space-x-4 overflow-x-auto pb-2" aria-label="Tabs">
+                    <button data-tab="incomeHeadsTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">Income Heads</button>
+                    <button data-tab="expenseHeadsTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">Expense Heads</button>
+                    <button data-tab="incomeSubHeadsTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">Income Sub-Heads</button>
+                    <button data-tab="expenseSubHeadsTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">Expense Sub-Heads</button>
+                    <button data-tab="dataManagementTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">Data Management</button>
+                    <button data-tab="themesTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">Themes</button>
+                    <button data-tab="shadersTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">Shaders (exp)</button>
+                    <button data-tab="tutorialsTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">Tutorials</button>
+                    <button data-tab="faqTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">FAQ's</button>
+                    <button data-tab="aboutTab" class="tab-button py-3 px-2 sm:px-4 border-b-2 font-medium text-sm whitespace-nowrap">About</button>
+                </nav>
+            </div>
+
+            <div id="incomeHeadsTabContent" class="settings-tab-content settings-card">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">Income Heads</h3>
+                    <button id="openAddIncomeHeadModalBtn" class="btn-success font-semibold py-2 px-4 rounded-lg shadow-md">Add Income Head</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y" style="border-color: var(--border-color);">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incomeHeadsTableBody" class="divide-y" style="border-color: var(--border-color);">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="expenseHeadsTabContent" class="settings-tab-content hidden settings-card">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">Expense Heads</h3>
+                    <button id="openAddExpenseHeadModalBtn" class="btn-danger font-semibold py-2 px-4 rounded-lg shadow-md">Add Expense Head</button>
+                </div>
+                 <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y" style="border-color: var(--border-color);">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenseHeadsTableBody" class="divide-y" style="border-color: var(--border-color);">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="incomeSubHeadsTabContent" class="settings-tab-content hidden settings-card">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">Income Sub-Heads</h3>
+                    <button id="openAddIncomeSubHeadModalBtn" class="btn-success font-semibold py-2 px-4 rounded-lg shadow-md">Add Income Sub-Head</button>
+                </div>
+                <div class="mb-4">
+                    <label for="selectParentIncomeHead" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Filter by Income Head:</label>
+                    <select id="selectParentIncomeHead" class="w-full md:w-1/2">
+                        <option value="">-- All Income Heads --</option>
+                    </select>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y" style="border-color: var(--border-color);">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Sub-Head Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Parent Head</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incomeSubHeadsTableBody" class="divide-y" style="border-color: var(--border-color);">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="expenseSubHeadsTabContent" class="settings-tab-content hidden settings-card">
+                 <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">Expense Sub-Heads</h3>
+                    <button id="openAddExpenseSubHeadModalBtn" class="btn-danger font-semibold py-2 px-4 rounded-lg shadow-md">Add Expense Sub-Head</button>
+                </div>
+                <div class="mb-4">
+                    <label for="selectParentExpenseHead" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Filter by Expense Head:</label>
+                    <select id="selectParentExpenseHead" class="w-full md:w-1/2">
+                         <option value="">-- All Expense Heads --</option>
+                    </select>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y" style="border-color: var(--border-color);">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Sub-Head Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Parent Head</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenseSubHeadsTableBody" class="divide-y" style="border-color: var(--border-color);">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="dataManagementTabContent" class="settings-tab-content hidden settings-card">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">Data Management</h3>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-lg font-medium mb-2" style="color: var(--text-secondary);">Export Data</h4>
+                        <p class="text-sm mb-3" style="color: var(--text-secondary);">Download all your data (heads, sub-heads, transactions) as a JSON file.</p>
+                        <button id="exportDataBtn" class="btn-primary font-semibold py-2 px-4 rounded-lg shadow-md">Export Data</button>
+                    </div>
+                    <hr class="my-6" style="border-color: var(--border-color);"/>
+                    <div>
+                        <h4 class="text-lg font-medium mb-2" style="color: var(--text-secondary);">Import Data</h4>
+                        <p class="text-sm mb-3" style="color: var(--text-secondary);">Import data from a JSON file. <strong style="color: var(--button-danger-bg);">Warning:</strong> This will overwrite existing data.</p>
+                        <input type="file" id="importFile" accept=".json" class="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 mb-3 p-2 border rounded-lg" style="color: var(--text-secondary); border-color: var(--border-color);">
+                        <button id="importDataBtn" class="btn-warning font-semibold py-2 px-4 rounded-lg shadow-md">Import Data</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="themesTabContent" class="settings-tab-content hidden settings-card">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">Select Theme</h3>
+                <div id="themeSelectorContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    </div>
+            </div>
+
+            <div id="shadersTabContent" class="settings-tab-content hidden settings-card">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">Shaders (experimental)</h3>
+                <p class="text-sm mb-4" style="color: var(--text-secondary);">Apply visual shader effects to the entire application. Some shaders might impact performance or readability.</p>
+                <div id="shaderSelectorContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    </div>
+            </div>
+
+            <div id="tutorialsTabContent" class="settings-tab-content hidden settings-card">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">Tutorials</h3>
+                <p style="color: var(--text-secondary);">Welcome to the Expense Tracker! Here's how to get started:</p>
+                <ul class="list-disc pl-5 space-y-2 mt-4" style="color: var(--text-secondary);">
+                    <li><strong>Dashboard:</strong> View your financial overview, add new transactions, and see all your transaction history with filters and search.</li>
+                    <li><strong>Adding Transactions:</strong>
+                        <ol class="list-decimal pl-5 space-y-1 mt-1">
+                            <li>Go to the Dashboard.</li>
+                            <li>Select 'Income' or 'Expenditure' type.</li>
+                            <li>Choose a 'Head' (category). You can manage these in Settings.</li>
+                            <li>Optionally, select a 'Sub-Head' for more detail.</li>
+                            <li>Enter the amount and date.</li>
+                            <li>Add a description if needed.</li>
+                            <li>Click 'Add Transaction'.</li>
+                        </ol>
+                    </li>
+                    <li><strong>Managing Heads & Sub-Heads:</strong>
+                        <ol class="list-decimal pl-5 space-y-1 mt-1">
+                            <li>Go to Settings.</li>
+                            <li>Use the 'Income Heads', 'Expense Heads', 'Income Sub-Heads', or 'Expense Sub-Heads' tabs to add, edit, or delete categories.</li>
+                            <li>Sub-heads must be linked to a parent head.</li>
+                        </ol>
+                    </li>
+                    <li><strong>Reports:</strong> Generate detailed transaction reports or overviews of spending/income by heads, with date filters and sorting.</li>
+                    <li><strong>Data Management:</strong> In Settings, you can export all your data to a JSON file for backup, or import data from a previously exported file.</li>
+                    <li><strong>Customization:</strong> Explore 'Themes' and experimental 'Shaders' in Settings to personalize your experience.</li>
+                </ul>
+                 <p class="mt-4" style="color: var(--text-secondary);">More tutorials coming soon!</p>
+            </div>
+
+            <div id="faqTabContent" class="settings-tab-content hidden settings-card">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">Frequently Asked Questions (FAQ)</h3>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-semibold" style="color: var(--text-primary);">Q: How do I add a new income or expense category?</h4>
+                        <p style="color: var(--text-secondary);">A: Go to Settings, then select either 'Income Heads' or 'Expense Heads'. Click the 'Add...' button to create a new main category.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold" style="color: var(--text-primary);">Q: What are Sub-Heads?</h4>
+                        <p style="color: var(--text-secondary);">A: Sub-heads are sub-categories for your main heads. For example, if you have an 'Expense Head' called "Utilities", you could have 'Sub-Heads' like "Electricity Bill", "Internet Bill", etc. You manage these in Settings under 'Income Sub-Heads' or 'Expense Sub-Heads'.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold" style="color: var(--text-primary);">Q: Can I edit or delete a transaction?</h4>
+                        <p style="color: var(--text-secondary);">A: Currently, you can delete transactions from the 'All Transactions' table on the Dashboard or from the detailed report view. Editing transactions directly is planned for a future update.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold" style="color: var(--text-primary);">Q: Is my data stored online?</h4>
+                        <p style="color: var(--text-secondary);">A: No, all your data is stored locally in your web browser's storage. It is not sent to any server. This means your data is private but also that you should use the Export Data feature in Settings to back it up regularly.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold" style="color: var(--text-primary);">Q: What happens if I clear my browser's cache/data?</h4>
+                        <p style="color: var(--text-secondary);">A: Clearing your browser's local storage for this site will erase all your expense tracker data. Please use the 'Export Data' feature to create backups.</p>
+                    </div>
+                     <div>
+                        <h4 class="font-semibold" style="color: var(--text-primary);">Q: The import feature isn't working correctly / I lost my data after import.</h4>
+                        <p style="color: var(--text-secondary);">A: Ensure the JSON file you are importing is valid and was previously exported from this application. The import function overwrites existing data. If you encounter issues, try exporting your current data first (if any) as a backup before attempting an import with a different file.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="aboutTabContent" class="settings-tab-content hidden settings-card">
+                <h3 class="text-xl font-semibold mb-6" style="color: var(--text-primary);">About This Expense Tracker</h3>
+                <p class="mb-2" style="color: var(--text-secondary);">This application was created to help you manage your personal finances with ease.</p>
+                <p class="mb-2" style="color: var(--text-secondary);"><strong>Made by:</strong> Gemini</p>
+                <p class="mb-2" style="color: var(--text-secondary);"><strong>Ideas & Feature Requests by:</strong> TarangoHasan</p>
+                <p class="mb-2" style="color: var(--text-secondary);"><strong>User's Discord:</strong> @tarangohasan</p>
+                <p class="mt-4" style="color: var(--text-secondary);">Version: 3.0 (Major Update)</p>
+                <p class="mt-4" style="color: var(--text-secondary);">We are continuously working to improve this application. If you have feedback or suggestions, feel free to share!</p>
+            </div>
+
+        </section>
+    </main>
+
+    <div id="incomeHeadModal" class="modal fixed inset-0 items-center justify-center p-4 z-50">
+        <div class="modal-content p-8 rounded-xl shadow-2xl w-full max-w-md">
+            <h3 id="incomeHeadModalTitle" class="text-xl font-semibold mb-6">Add Income Head</h3>
+            <form id="incomeHeadForm">
+                <input type="hidden" id="incomeHeadId">
+                <div>
+                    <label for="incomeHeadName" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Head Name</label>
+                    <input type="text" id="incomeHeadName" name="incomeHeadName" required class="w-full" placeholder="e.g., Salary">
+                </div>
+                <div class="mt-8 flex justify-end space-x-3">
+                    <button type="button" id="cancelIncomeHeadModalBtn" class="btn-neutral px-4 py-2 text-sm font-medium rounded-lg">Cancel</button>
+                    <button type="submit" class="btn-success px-4 py-2 text-sm font-medium rounded-lg shadow-md">Save Income Head</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="expenseHeadModal" class="modal fixed inset-0 items-center justify-center p-4 z-50">
+        <div class="modal-content p-8 rounded-xl shadow-2xl w-full max-w-md">
+            <h3 id="expenseHeadModalTitle" class="text-xl font-semibold mb-6">Add Expense Head</h3>
+            <form id="expenseHeadForm">
+                <input type="hidden" id="expenseHeadId">
+                <div>
+                    <label for="expenseHeadName" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Head Name</label>
+                    <input type="text" id="expenseHeadName" name="expenseHeadName" required class="w-full" placeholder="e.g., Groceries">
+                </div>
+                <div class="mt-8 flex justify-end space-x-3">
+                    <button type="button" id="cancelExpenseHeadModalBtn" class="btn-neutral px-4 py-2 text-sm font-medium rounded-lg">Cancel</button>
+                    <button type="submit" class="btn-danger px-4 py-2 text-sm font-medium rounded-lg shadow-md">Save Expense Head</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="incomeSubHeadModal" class="modal fixed inset-0 items-center justify-center p-4 z-50">
+        <div class="modal-content p-8 rounded-xl shadow-2xl w-full max-w-md">
+            <h3 id="incomeSubHeadModalTitle" class="text-xl font-semibold mb-6">Add Income Sub-Head</h3>
+            <form id="incomeSubHeadForm">
+                <input type="hidden" id="incomeSubHeadId">
+                <div>
+                    <label for="parentIncomeHead" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Parent Income Head</label>
+                    <select id="parentIncomeHead" name="parentIncomeHead" required class="w-full">
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <label for="incomeSubHeadName" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Sub-Head Name</label>
+                    <input type="text" id="incomeSubHeadName" name="incomeSubHeadName" required class="w-full" placeholder="e.g., Freelance Project">
+                </div>
+                <div class="mt-8 flex justify-end space-x-3">
+                    <button type="button" id="cancelIncomeSubHeadModalBtn" class="btn-neutral px-4 py-2 text-sm font-medium rounded-lg">Cancel</button>
+                    <button type="submit" class="btn-success px-4 py-2 text-sm font-medium rounded-lg shadow-md">Save Income Sub-Head</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="expenseSubHeadModal" class="modal fixed inset-0 items-center justify-center p-4 z-50">
+        <div class="modal-content p-8 rounded-xl shadow-2xl w-full max-w-md">
+            <h3 id="expenseSubHeadModalTitle" class="text-xl font-semibold mb-6">Add Expense Sub-Head</h3>
+            <form id="expenseSubHeadForm">
+                <input type="hidden" id="expenseSubHeadId">
+                <div>
+                    <label for="parentExpenseHead" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Parent Expense Head</label>
+                    <select id="parentExpenseHead" name="parentExpenseHead" required class="w-full">
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <label for="expenseSubHeadName" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">Sub-Head Name</label>
+                    <input type="text" id="expenseSubHeadName" name="expenseSubHeadName" required class="w-full" placeholder="e.g., Vegetables">
+                </div>
+                <div class="mt-8 flex justify-end space-x-3">
+                    <button type="button" id="cancelExpenseSubHeadModalBtn" class="btn-neutral px-4 py-2 text-sm font-medium rounded-lg">Cancel</button>
+                    <button type="submit" class="btn-danger px-4 py-2 text-sm font-medium rounded-lg shadow-md">Save Expense Sub-Head</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="modal fixed inset-0 items-center justify-center p-4 z-[60]">
+        <div class="modal-content p-8 rounded-xl shadow-2xl w-full max-w-md">
+            <h3 id="confirmationModalTitle" class="text-xl font-semibold mb-4">Confirm Action</h3>
+            <p id="confirmationModalMessage" class="mb-6" style="color: var(--text-secondary);">Are you sure you want to proceed?</p>
+            <div class="mt-8 flex justify-end space-x-3">
+                <button type="button" id="cancelConfirmationBtn" class="btn-neutral px-4 py-2 text-sm font-medium rounded-lg">Cancel</button>
+                <button type="button" id="confirmActionBtn" class="btn-danger px-4 py-2 text-sm font-medium rounded-lg shadow-md">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastNotification" class="fixed bottom-5 right-5 py-3 px-5 rounded-lg shadow-xl transition-opacity duration-300 opacity-0 z-[70]">
+        <p id="toastMessage"></p>
+    </div>
+
+
+    <script>
+        // --- UTILITY FUNCTIONS ---
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+
+        // --- LOCALSTORAGE HELPERS ---
+        const STORAGE_KEYS = {
+            INCOME_HEADS: 'expenseTracker_incomeHeads_v3', // Version bump for potentially incompatible changes
+            EXPENSE_HEADS: 'expenseTracker_expenseHeads_v3',
+            INCOME_SUB_HEADS: 'expenseTracker_incomeSubHeads_v3',
+            EXPENSE_SUB_HEADS: 'expenseTracker_expenseSubHeads_v3',
+            TRANSACTIONS: 'expenseTracker_transactions_v3',
+            ACTIVE_VIEW: 'expenseTracker_activeView_v3',
+            ACTIVE_SETTINGS_TAB: 'expenseTracker_activeSettingsTab_v3',
+            ACTIVE_THEME: 'expenseTracker_activeTheme_v3',
+            ACTIVE_SHADER: 'expenseTracker_activeShader_v3' // New key for shader
+        };
+
+        function saveData(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+            } catch (e) {
+                console.error("Error saving to localStorage:", e);
+                showToast("Could not save data. LocalStorage might be full or disabled.", "error");
+            }
+        }
+
+        function loadData(key, defaultValue = []) {
+            const data = localStorage.getItem(key);
+            try {
+                return data ? JSON.parse(data) : defaultValue;
+            } catch (e) {
+                console.error("Error parsing localStorage data for key:", key, e);
+                // If parsing fails for critical data, consider clearing it to prevent app crash
+                // For now, return default and log error.
+                return defaultValue;
+            }
+        }
+
+        // --- THEME MANAGEMENT ---
+        const themes = [
+            { id: 'theme-light', name: 'Default Light', colors: { primary: '#3b82f6', secondary: '#f3f4f6', text: '#1f2937'} },
+            { id: 'theme-dark', name: 'Cool Dark', colors: { primary: '#60a5fa', secondary: '#111827', text: '#f3f4f6'} },
+            { id: 'theme-neon', name: 'Neon Glow', colors: { primary: '#ff00ff', secondary: '#0d0c0f', text: '#00ffff'} },
+            { id: 'theme-ocean', name: 'Ocean Breeze', colors: { primary: '#00796b', secondary: '#e0f7fa', text: '#004d40'} }
+        ];
+
+        function applyTheme(themeId) {
+            document.body.className = ''; // Clear existing theme AND shader classes
+            document.body.classList.add(themeId);
+            saveData(STORAGE_KEYS.ACTIVE_THEME, themeId);
+            updateActiveThemeCard(themeId);
+            // Re-apply shader if one was active
+            const activeShader = loadData(STORAGE_KEYS.ACTIVE_SHADER, 'shader-none');
+            if (activeShader !== 'shader-none') {
+                document.body.classList.add(activeShader);
+            }
+        }
+
+        function loadAndApplyTheme() {
+            const savedThemeId = loadData(STORAGE_KEYS.ACTIVE_THEME, 'theme-light');
+            applyTheme(savedThemeId); // This will also handle re-applying shader
+        }
+
+        function populateThemeSelector() {
+            const container = $('#themeSelectorContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            themes.forEach(theme => {
+                const card = document.createElement('div');
+                card.className = 'theme-card flex flex-col items-center p-4';
+                card.dataset.themeId = theme.id;
+                card.innerHTML = `
+                    <div class="flex mb-2">
+                        <div class="theme-color-preview" style="background-color: ${theme.colors.primary};"></div>
+                        <div class="theme-color-preview" style="background-color: ${theme.colors.secondary};"></div>
+                        <div class="theme-color-preview" style="background-color: ${theme.colors.text};"></div>
+                    </div>
+                    <span class="text-sm font-medium">${theme.name}</span>
+                `;
+                card.addEventListener('click', () => applyTheme(theme.id));
+                container.appendChild(card);
+            });
+            updateActiveThemeCard(loadData(STORAGE_KEYS.ACTIVE_THEME, 'theme-light'));
+        }
+
+        function updateActiveThemeCard(activeThemeId) {
+            $$('.theme-card').forEach(card => {
+                card.classList.remove('active-theme');
+                if (card.dataset.themeId === activeThemeId) {
+                    card.classList.add('active-theme');
+                }
+            });
+        }
+
+        // --- SHADER MANAGEMENT ---
+        const shaders = [
+            { id: 'shader-none', name: 'No Shader' },
+            { id: 'shader-grayscale', name: 'Grayscale' },
+            { id: 'shader-sepia', name: 'Sepia Tone' },
+            { id: 'shader-hue-rotate-mild', name: 'Hue Shift (Mild)' },
+            { id: 'shader-hue-rotate-strong', name: 'Hue Shift (Strong)' },
+            { id: 'shader-invert', name: 'Invert Colors' },
+            { id: 'shader-brightness', name: 'Brighter' },
+            { id: 'shader-contrast', name: 'High Contrast' },
+            { id: 'shader-blur', name: 'Soft Blur' },
+            { id: 'shader-saturate', name: 'Saturate Colors' },
+            { id: 'shader-vintage-overlay', name: 'Vintage Overlay' }
+        ];
+
+        function applyShader(shaderId) {
+            // Remove all existing shader classes first
+            shaders.forEach(s => document.body.classList.remove(s.id));
+
+            if (shaderId && shaderId !== 'shader-none') {
+                document.body.classList.add(shaderId);
+            }
+            saveData(STORAGE_KEYS.ACTIVE_SHADER, shaderId);
+            updateActiveShaderCard(shaderId);
+        }
+
+        function loadAndApplyShader() {
+            const savedShaderId = loadData(STORAGE_KEYS.ACTIVE_SHADER, 'shader-none');
+            applyShader(savedShaderId);
+        }
+
+        function populateShaderSelector() {
+            const container = $('#shaderSelectorContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            shaders.forEach(shader => {
+                const card = document.createElement('div');
+                card.className = 'shader-card flex flex-col items-center justify-center p-4 text-center'; // Added text-center and justify-center
+                card.dataset.shaderId = shader.id;
+                // Simple text display for shaders
+                card.innerHTML = `<span class="text-sm font-medium">${shader.name}</span>`;
+                card.addEventListener('click', () => applyShader(shader.id));
+                container.appendChild(card);
+            });
+            updateActiveShaderCard(loadData(STORAGE_KEYS.ACTIVE_SHADER, 'shader-none'));
+        }
+
+        function updateActiveShaderCard(activeShaderId) {
+             $$('.shader-card').forEach(card => {
+                card.classList.remove('active-shader');
+                if (card.dataset.shaderId === activeShaderId) {
+                    card.classList.add('active-shader');
+                }
+            });
+        }
+
+
+        // --- STATE MANAGEMENT ---
+        let state = {
+            incomeHeads: [],
+            expenseHeads: [],
+            incomeSubHeads: [],
+            expenseSubHeads: [],
+            transactions: [],
+            editingItemId: null,
+        };
+
+        // --- TOAST NOTIFICATION ---
+        function showToast(message, type = 'success') {
+            const toast = $('#toastNotification');
+            const toastMessage = $('#toastMessage');
+            if (!toast || !toastMessage) {
+                console.warn("Toast elements not found, cannot display message:", message);
+                return;
+            }
+            toastMessage.textContent = message;
+
+            toast.classList.remove('bg-gray-800', 'bg-green-600', 'bg-red-600', 'bg-yellow-500', 'opacity-0', 'opacity-100');
+            toast.className = 'fixed bottom-5 right-5 py-3 px-5 rounded-lg shadow-xl transition-opacity duration-300 opacity-0 z-[70]'; // Reset classes
+
+            if (type === 'success') toast.classList.add('bg-green-600');
+            else if (type === 'error') toast.classList.add('bg-red-600');
+            else if (type === 'warning') toast.classList.add('bg-yellow-500');
+            else toast.classList.add('bg-gray-800');
+
+
+            requestAnimationFrame(() => { // Use rAF for smoother transition start
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+            });
+
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 3000);
+        }
+
+        // --- CONFIRMATION MODAL ---
+        let confirmCallback = null;
+        const confirmationModal = $('#confirmationModal');
+        const cancelConfirmationBtn = $('#cancelConfirmationBtn');
+        const confirmActionBtn = $('#confirmActionBtn');
+
+        function showConfirmationModal(title, message, onConfirm) {
+            $('#confirmationModalTitle').textContent = title;
+            $('#confirmationModalMessage').textContent = message;
+            confirmCallback = onConfirm;
+            confirmationModal.classList.add('active');
+        }
+
+        if(cancelConfirmationBtn) cancelConfirmationBtn.addEventListener('click', () => {
+            confirmationModal.classList.remove('active');
+            confirmCallback = null;
+        });
+
+        if(confirmActionBtn) confirmActionBtn.addEventListener('click', () => {
+            if (confirmCallback) confirmCallback();
+            confirmationModal.classList.remove('active');
+            confirmCallback = null;
+        });
+
+
+        // --- UI NAVIGATION ---
+        const navDashboardBtn = $('#navDashboard');
+        const navReportsBtn = $('#navReports');
+        const navSettingsBtn = $('#navSettings');
+        const allNavButtons = [navDashboardBtn, navReportsBtn, navSettingsBtn];
+
+        const dashboardView = $('#dashboardView');
+        const reportsView = $('#reportsView');
+        const settingsView = $('#settingsView');
+        const allViews = [dashboardView, reportsView, settingsView];
+
+        const settingsTabButtons = $$('.tab-button');
+        const settingsTabContents = $$('.settings-tab-content');
+
+        function navigateTo(viewName) {
+            allViews.forEach(view => view.classList.add('hidden'));
+            allNavButtons.forEach(btn => btn.classList.remove('active'));
+
+            let activeViewElement = null;
+            let activeButtonElement = null;
+
+            if (viewName === 'dashboard') {
+                activeViewElement = dashboardView;
+                activeButtonElement = navDashboardBtn;
+                renderDashboard();
+            } else if (viewName === 'reports') {
+                activeViewElement = reportsView;
+                activeButtonElement = navReportsBtn;
+                renderReportsView();
+            } else if (viewName === 'settings') {
+                activeViewElement = settingsView;
+                activeButtonElement = navSettingsBtn;
+                const activeTab = loadData(STORAGE_KEYS.ACTIVE_SETTINGS_TAB, 'incomeHeadsTab');
+                activateSettingsTab(activeTab); // This will also call relevant render functions
+            }
+
+            if(activeViewElement) activeViewElement.classList.remove('hidden');
+            if(activeButtonElement) activeButtonElement.classList.add('active');
+
+            saveData(STORAGE_KEYS.ACTIVE_VIEW, viewName);
+        }
+
+        allNavButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (e.target === navDashboardBtn) navigateTo('dashboard');
+                else if (e.target === navReportsBtn) navigateTo('reports');
+                else if (e.target === navSettingsBtn) navigateTo('settings');
+            });
+        });
+
+
+        function activateSettingsTab(tabId) {
+            settingsTabButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.tab === tabId) button.classList.add('active');
+            });
+            settingsTabContents.forEach(content => {
+                content.classList.add('hidden');
+                if (content.id === `${tabId}Content`) content.classList.remove('hidden');
+            });
+            saveData(STORAGE_KEYS.ACTIVE_SETTINGS_TAB, tabId);
+
+            // Call render functions for specific tabs if they need dynamic content
+            switch(tabId) {
+                case 'incomeHeadsTab': renderIncomeHeads(); break;
+                case 'expenseHeadsTab': renderExpenseHeads(); break;
+                case 'incomeSubHeadsTab': renderIncomeSubHeads(); populateParentIncomeHeadDropdowns(); break;
+                case 'expenseSubHeadsTab': renderExpenseSubHeads(); populateParentExpenseHeadDropdowns(); break;
+                case 'themesTab': populateThemeSelector(); break;
+                case 'shadersTab': populateShaderSelector(); break;
+                // Tutorials, FAQ, About, DataManagement tabs have static content or simple event listeners, no specific render on tab activate
+            }
+        }
+
+        settingsTabButtons.forEach(button => {
+            button.addEventListener('click', () => activateSettingsTab(button.dataset.tab));
+        });
+
+        // --- MODAL HANDLING (Generic) ---
+        function openModal(modalElement) {
+            modalElement.classList.add('active');
+        }
+
+        function closeModal(modalElement) {
+            modalElement.classList.remove('active');
+            state.editingItemId = null;
+            const form = modalElement.querySelector('form');
+            if (form) form.reset();
+        }
+
+        // --- INCOME HEADS ---
+        const incomeHeadModal = $('#incomeHeadModal');
+        const incomeHeadForm = $('#incomeHeadForm');
+        const incomeHeadsTableBody = $('#incomeHeadsTableBody');
+
+        $('#openAddIncomeHeadModalBtn').addEventListener('click', () => {
+            $('#incomeHeadModalTitle').textContent = 'Add Income Head';
+            incomeHeadForm.reset(); state.editingItemId = null; openModal(incomeHeadModal);
+        });
+        $('#cancelIncomeHeadModalBtn').addEventListener('click', () => closeModal(incomeHeadModal));
+
+        incomeHeadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = $('#incomeHeadName').value.trim();
+            if (!name) { showToast('Income head name cannot be empty.', 'error'); return; }
+
+            if (state.editingItemId) {
+                const head = state.incomeHeads.find(h => h.id === state.editingItemId);
+                if (head) {
+                    if (state.incomeHeads.some(h => h.name.toLowerCase() === name.toLowerCase() && h.id !== state.editingItemId)) {
+                        showToast('An income head with this name already exists.', 'error'); return;
+                    }
+                    head.name = name; showToast('Income head updated successfully.');
+                }
+            } else {
+                 if (state.incomeHeads.some(h => h.name.toLowerCase() === name.toLowerCase())) {
+                    showToast('An income head with this name already exists.', 'error'); return;
+                }
+                state.incomeHeads.push({ id: `ih-${Date.now()}`, name });
+                showToast('Income head added successfully.');
+            }
+            saveData(STORAGE_KEYS.INCOME_HEADS, state.incomeHeads);
+            renderIncomeHeads();
+            populateAllHeadFilterDropdowns();
+            populateParentIncomeHeadDropdowns();
+            populateTransactionHeadDropdowns();
+            closeModal(incomeHeadModal);
+        });
+
+        function renderIncomeHeads() {
+            incomeHeadsTableBody.innerHTML = '';
+            if (state.incomeHeads.length === 0) {
+                incomeHeadsTableBody.innerHTML = `<tr><td colspan="2" class="px-6 py-4 text-center" style="color: var(--text-secondary);">No income heads found.</td></tr>`; return;
+            }
+            state.incomeHeads.forEach(head => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" title="${head.name}">${head.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button class="link-style edit-income-head" data-id="${head.id}">Edit</button>
+                        <button class="link-style ml-3 delete-income-head" style="color: var(--button-danger-bg);" data-id="${head.id}">Delete</button>
+                    </td>`;
+                incomeHeadsTableBody.appendChild(tr);
+            });
+        }
+
+        incomeHeadsTableBody.addEventListener('click', (e) => {
+            if (e.target.classList.contains('edit-income-head')) {
+                state.editingItemId = e.target.dataset.id;
+                const head = state.incomeHeads.find(h => h.id === state.editingItemId);
+                if (head) {
+                    $('#incomeHeadModalTitle').textContent = 'Edit Income Head';
+                    $('#incomeHeadId').value = head.id; $('#incomeHeadName').value = head.name;
+                    openModal(incomeHeadModal);
+                }
+            } else if (e.target.classList.contains('delete-income-head')) {
+                const headId = e.target.dataset.id;
+                const head = state.incomeHeads.find(h => h.id === headId);
+                showConfirmationModal('Delete Income Head', `Are you sure you want to delete "${head.name}"? This will also delete all its sub-heads and associated transactions. This action cannot be undone.`, () => deleteIncomeHead(headId));
+            }
+        });
+
+        function deleteIncomeHead(id) {
+            state.incomeSubHeads = state.incomeSubHeads.filter(sh => sh.parentHeadId !== id);
+            state.transactions = state.transactions.filter(t => !(t.type === 'income' && t.headId === id));
+            state.incomeHeads = state.incomeHeads.filter(head => head.id !== id);
+
+            saveData(STORAGE_KEYS.INCOME_HEADS, state.incomeHeads);
+            saveData(STORAGE_KEYS.INCOME_SUB_HEADS, state.incomeSubHeads);
+            saveData(STORAGE_KEYS.TRANSACTIONS, state.transactions);
+
+            renderIncomeHeads(); renderIncomeSubHeads(); populateParentIncomeHeadDropdowns();
+            populateAllHeadFilterDropdowns(); renderDashboard();
+            showToast('Income head and associated data deleted.', 'success');
+        }
+
+        // --- EXPENSE HEADS ---
+        const expenseHeadModal = $('#expenseHeadModal');
+        const expenseHeadForm = $('#expenseHeadForm');
+        const expenseHeadsTableBody = $('#expenseHeadsTableBody');
+
+        $('#openAddExpenseHeadModalBtn').addEventListener('click', () => {
+            $('#expenseHeadModalTitle').textContent = 'Add Expense Head';
+            expenseHeadForm.reset(); state.editingItemId = null; openModal(expenseHeadModal);
+        });
+        $('#cancelExpenseHeadModalBtn').addEventListener('click', () => closeModal(expenseHeadModal));
+
+        expenseHeadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = $('#expenseHeadName').value.trim();
+            if (!name) { showToast('Expense head name cannot be empty.', 'error'); return; }
+
+            if (state.editingItemId) {
+                const head = state.expenseHeads.find(h => h.id === state.editingItemId);
+                if (head) {
+                     if (state.expenseHeads.some(h => h.name.toLowerCase() === name.toLowerCase() && h.id !== state.editingItemId)) {
+                        showToast('An expense head with this name already exists.', 'error'); return;
+                    }
+                    head.name = name; showToast('Expense head updated successfully.');
+                }
+            } else {
+                if (state.expenseHeads.some(h => h.name.toLowerCase() === name.toLowerCase())) {
+                    showToast('An expense head with this name already exists.', 'error'); return;
+                }
+                state.expenseHeads.push({ id: `eh-${Date.now()}`, name });
+                showToast('Expense head added successfully.');
+            }
+            saveData(STORAGE_KEYS.EXPENSE_HEADS, state.expenseHeads);
+            renderExpenseHeads();
+            populateAllHeadFilterDropdowns();
+            populateParentExpenseHeadDropdowns();
+            populateTransactionHeadDropdowns();
+            closeModal(expenseHeadModal);
+        });
+
+        function renderExpenseHeads() {
+            expenseHeadsTableBody.innerHTML = '';
+            if (state.expenseHeads.length === 0) {
+                expenseHeadsTableBody.innerHTML = `<tr><td colspan="2" class="px-6 py-4 text-center" style="color: var(--text-secondary);">No expense heads found.</td></tr>`; return;
+            }
+            state.expenseHeads.forEach(head => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" title="${head.name}">${head.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button class="link-style edit-expense-head" data-id="${head.id}">Edit</button>
+                        <button class="link-style ml-3 delete-expense-head" style="color: var(--button-danger-bg);" data-id="${head.id}">Delete</button>
+                    </td>`;
+                expenseHeadsTableBody.appendChild(tr);
+            });
+        }
+
+        expenseHeadsTableBody.addEventListener('click', (e) => {
+            if (e.target.classList.contains('edit-expense-head')) {
+                state.editingItemId = e.target.dataset.id;
+                const head = state.expenseHeads.find(h => h.id === state.editingItemId);
+                if (head) {
+                    $('#expenseHeadModalTitle').textContent = 'Edit Expense Head';
+                    $('#expenseHeadId').value = head.id; $('#expenseHeadName').value = head.name;
+                    openModal(expenseHeadModal);
+                }
+            } else if (e.target.classList.contains('delete-expense-head')) {
+                const headId = e.target.dataset.id;
+                const head = state.expenseHeads.find(h => h.id === headId);
+                showConfirmationModal('Delete Expense Head', `Are you sure you want to delete "${head.name}"? This will also delete all its sub-heads and associated transactions. This action cannot be undone.`, () => deleteExpenseHead(headId));
+            }
+        });
+
+        function deleteExpenseHead(id) {
+            state.expenseSubHeads = state.expenseSubHeads.filter(sh => sh.parentHeadId !== id);
+            state.transactions = state.transactions.filter(t => !(t.type === 'expense' && t.headId === id));
+            state.expenseHeads = state.expenseHeads.filter(head => head.id !== id);
+
+            saveData(STORAGE_KEYS.EXPENSE_HEADS, state.expenseHeads);
+            saveData(STORAGE_KEYS.EXPENSE_SUB_HEADS, state.expenseSubHeads);
+            saveData(STORAGE_KEYS.TRANSACTIONS, state.transactions);
+
+            renderExpenseHeads(); renderExpenseSubHeads(); populateParentExpenseHeadDropdowns();
+            populateAllHeadFilterDropdowns(); renderDashboard();
+            showToast('Expense head and associated data deleted.', 'success');
+        }
+
+        // --- INCOME SUB-HEADS ---
+        const incomeSubHeadModal = $('#incomeSubHeadModal');
+        const incomeSubHeadForm = $('#incomeSubHeadForm');
+        const incomeSubHeadsTableBody = $('#incomeSubHeadsTableBody');
+        const parentIncomeHeadDropdownModal = $('#parentIncomeHead');
+        const filterParentIncomeHeadDropdown = $('#selectParentIncomeHead');
+
+        $('#openAddIncomeSubHeadModalBtn').addEventListener('click', () => {
+            if (state.incomeHeads.length === 0) { showToast('Please add an Income Head first.', 'warning'); return; }
+            $('#incomeSubHeadModalTitle').textContent = 'Add Income Sub-Head';
+            incomeSubHeadForm.reset(); state.editingItemId = null;
+            populateParentIncomeHeadDropdowns(parentIncomeHeadDropdownModal);
+            openModal(incomeSubHeadModal);
+        });
+        $('#cancelIncomeSubHeadModalBtn').addEventListener('click', () => closeModal(incomeSubHeadModal));
+
+        function populateParentIncomeHeadDropdowns(targetDropdown = null) {
+            const dropdowns = targetDropdown ? [targetDropdown] : [parentIncomeHeadDropdownModal, filterParentIncomeHeadDropdown];
+
+            dropdowns.forEach(dropdown => {
+                if (!dropdown) return;
+                const currentValue = dropdown.value;
+                dropdown.innerHTML = state.incomeHeads.length > 0 ? '' : `<option value="">-- No Income Heads --</option>`;
+                if (dropdown === filterParentIncomeHeadDropdown) {
+                     dropdown.innerHTML = '<option value="">-- All Income Heads --</option>';
+                }
+                state.incomeHeads.forEach(head => {
+                    const option = document.createElement('option');
+                    option.value = head.id; option.textContent = head.name;
+                    dropdown.appendChild(option);
+                });
+                if (currentValue && state.incomeHeads.some(h => h.id === currentValue)) {
+                    dropdown.value = currentValue;
+                } else if (dropdown === filterParentIncomeHeadDropdown) {
+                    dropdown.value = "";
+                } else if (state.incomeHeads.length > 0 && dropdown !== filterParentIncomeHeadDropdown) {
+                    dropdown.value = state.incomeHeads[0].id;
+                }
+            });
+        }
+
+        if(filterParentIncomeHeadDropdown) filterParentIncomeHeadDropdown.addEventListener('change', renderIncomeSubHeads);
+
+        incomeSubHeadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const parentHeadId = parentIncomeHeadDropdownModal.value;
+            const name = $('#incomeSubHeadName').value.trim();
+
+            if (!parentHeadId) { showToast('Please select a parent income head.', 'error'); return; }
+            if (!name) { showToast('Sub-head name cannot be empty.', 'error'); return; }
+
+            const nameExists = state.incomeSubHeads.some(sh => sh.name.toLowerCase() === name.toLowerCase() && sh.parentHeadId === parentHeadId && sh.id !== state.editingItemId);
+            if (nameExists) { showToast('An income sub-head with this name already exists under the selected parent head.', 'error'); return; }
+
+            if (state.editingItemId) {
+                const subHead = state.incomeSubHeads.find(sh => sh.id === state.editingItemId);
+                if (subHead) {
+                    subHead.parentHeadId = parentHeadId; subHead.name = name;
+                    showToast('Income sub-head updated successfully.');
+                }
+            } else {
+                state.incomeSubHeads.push({ id: `ish-${Date.now()}`, parentHeadId, name });
+                showToast('Income sub-head added successfully.');
+            }
+            saveData(STORAGE_KEYS.INCOME_SUB_HEADS, state.incomeSubHeads);
+            renderIncomeSubHeads(); populateTransactionSubHeadDropdowns();
+            closeModal(incomeSubHeadModal);
+        });
+
+        function renderIncomeSubHeads() {
+            incomeSubHeadsTableBody.innerHTML = '';
+            const selectedParentId = filterParentIncomeHeadDropdown.value;
+            const filteredSubHeads = selectedParentId
+                ? state.incomeSubHeads.filter(sh => sh.parentHeadId === selectedParentId)
+                : state.incomeSubHeads;
+
+            if (filteredSubHeads.length === 0) {
+                incomeSubHeadsTableBody.innerHTML = `<tr><td colspan="3" class="px-6 py-4 text-center" style="color: var(--text-secondary);">No income sub-heads.</td></tr>`; return;
+            }
+
+            filteredSubHeads.forEach(subHead => {
+                const parentHead = state.incomeHeads.find(h => h.id === subHead.parentHeadId);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" title="${subHead.name}">${subHead.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" style="color: var(--text-secondary);" title="${parentHead?.name || 'N/A'}">${parentHead?.name || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button class="link-style edit-income-sub-head" data-id="${subHead.id}">Edit</button>
+                        <button class="link-style ml-3 delete-income-sub-head" style="color: var(--button-danger-bg);" data-id="${subHead.id}">Delete</button>
+                    </td>`;
+                incomeSubHeadsTableBody.appendChild(tr);
+            });
+        }
+
+        incomeSubHeadsTableBody.addEventListener('click', (e) => {
+            if (e.target.classList.contains('edit-income-sub-head')) {
+                state.editingItemId = e.target.dataset.id;
+                const subHead = state.incomeSubHeads.find(sh => sh.id === state.editingItemId);
+                if (subHead) {
+                    $('#incomeSubHeadModalTitle').textContent = 'Edit Income Sub-Head';
+                    $('#incomeSubHeadId').value = subHead.id;
+                    populateParentIncomeHeadDropdowns(parentIncomeHeadDropdownModal);
+                    parentIncomeHeadDropdownModal.value = subHead.parentHeadId;
+                    $('#incomeSubHeadName').value = subHead.name;
+                    openModal(incomeSubHeadModal);
+                }
+            } else if (e.target.classList.contains('delete-income-sub-head')) {
+                const subHeadId = e.target.dataset.id;
+                const subHead = state.incomeSubHeads.find(sh => sh.id === subHeadId);
+                showConfirmationModal('Delete Income Sub-Head', `Are you sure you want to delete "${subHead.name}"? This will also delete associated transactions.`, () => deleteIncomeSubHead(subHeadId));
+            }
+        });
+
+        function deleteIncomeSubHead(id) {
+            state.transactions = state.transactions.filter(t => !(t.type === 'income' && t.subHeadId === id));
+            state.incomeSubHeads = state.incomeSubHeads.filter(sh => sh.id !== id);
+
+            saveData(STORAGE_KEYS.INCOME_SUB_HEADS, state.incomeSubHeads);
+            saveData(STORAGE_KEYS.TRANSACTIONS, state.transactions);
+
+            renderIncomeSubHeads(); renderDashboard();
+            showToast('Income sub-head and associated transactions deleted.', 'success');
+        }
+
+        // --- EXPENSE SUB-HEADS ---
+        const expenseSubHeadModal = $('#expenseSubHeadModal');
+        const expenseSubHeadForm = $('#expenseSubHeadForm');
+        const expenseSubHeadsTableBody = $('#expenseSubHeadsTableBody');
+        const parentExpenseHeadDropdownModal = $('#parentExpenseHead');
+        const filterParentExpenseHeadDropdown = $('#selectParentExpenseHead');
+
+        $('#openAddExpenseSubHeadModalBtn').addEventListener('click', () => {
+            if (state.expenseHeads.length === 0) { showToast('Please add an Expense Head first.', 'warning'); return; }
+            $('#expenseSubHeadModalTitle').textContent = 'Add Expense Sub-Head';
+            expenseSubHeadForm.reset(); state.editingItemId = null;
+            populateParentExpenseHeadDropdowns(parentExpenseHeadDropdownModal);
+            openModal(expenseSubHeadModal);
+        });
+        $('#cancelExpenseSubHeadModalBtn').addEventListener('click', () => closeModal(expenseSubHeadModal));
+
+        function populateParentExpenseHeadDropdowns(targetDropdown = null) {
+            const dropdowns = targetDropdown ? [targetDropdown] : [parentExpenseHeadDropdownModal, filterParentExpenseHeadDropdown];
+
+            dropdowns.forEach(dropdown => {
+                 if (!dropdown) return;
+                const currentValue = dropdown.value;
+                dropdown.innerHTML = state.expenseHeads.length > 0 ? '' : '<option value="">-- No Expense Heads --</option>';
+                 if (dropdown === filterParentExpenseHeadDropdown) {
+                     dropdown.innerHTML = '<option value="">-- All Expense Heads --</option>';
+                }
+                state.expenseHeads.forEach(head => {
+                    const option = document.createElement('option');
+                    option.value = head.id; option.textContent = head.name;
+                    dropdown.appendChild(option);
+                });
+                if (currentValue && state.expenseHeads.some(h => h.id === currentValue)) {
+                    dropdown.value = currentValue;
+                } else if (dropdown === filterParentExpenseHeadDropdown) {
+                    dropdown.value = "";
+                } else if (state.expenseHeads.length > 0 && dropdown !== filterParentExpenseHeadDropdown) {
+                     dropdown.value = state.expenseHeads[0].id;
+                }
+            });
+        }
+
+        if(filterParentExpenseHeadDropdown) filterParentExpenseHeadDropdown.addEventListener('change', renderExpenseSubHeads);
+
+        expenseSubHeadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const parentHeadId = parentExpenseHeadDropdownModal.value;
+            const name = $('#expenseSubHeadName').value.trim();
+
+            if (!parentHeadId) { showToast('Please select a parent expense head.', 'error'); return; }
+            if (!name) { showToast('Sub-head name cannot be empty.', 'error'); return; }
+
+            const nameExists = state.expenseSubHeads.some(sh => sh.name.toLowerCase() === name.toLowerCase() && sh.parentHeadId === parentHeadId && sh.id !== state.editingItemId);
+            if (nameExists) { showToast('An expense sub-head with this name already exists under the selected parent head.', 'error'); return; }
+
+            if (state.editingItemId) {
+                const subHead = state.expenseSubHeads.find(sh => sh.id === state.editingItemId);
+                if (subHead) {
+                    subHead.parentHeadId = parentHeadId; subHead.name = name;
+                    showToast('Expense sub-head updated successfully.');
+                }
+            } else {
+                state.expenseSubHeads.push({ id: `esh-${Date.now()}`, parentHeadId, name });
+                showToast('Expense sub-head added successfully.');
+            }
+            saveData(STORAGE_KEYS.EXPENSE_SUB_HEADS, state.expenseSubHeads);
+            renderExpenseSubHeads(); populateTransactionSubHeadDropdowns();
+            closeModal(expenseSubHeadModal);
+        });
+
+        function renderExpenseSubHeads() {
+            expenseSubHeadsTableBody.innerHTML = '';
+            const selectedParentId = filterParentExpenseHeadDropdown.value;
+            const filteredSubHeads = selectedParentId
+                ? state.expenseSubHeads.filter(sh => sh.parentHeadId === selectedParentId)
+                : state.expenseSubHeads;
+
+            if (filteredSubHeads.length === 0) {
+                expenseSubHeadsTableBody.innerHTML = `<tr><td colspan="3" class="px-6 py-4 text-center" style="color: var(--text-secondary);">No expense sub-heads.</td></tr>`; return;
+            }
+
+            filteredSubHeads.forEach(subHead => {
+                const parentHead = state.expenseHeads.find(h => h.id === subHead.parentHeadId);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" title="${subHead.name}">${subHead.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" style="color: var(--text-secondary);" title="${parentHead?.name || 'N/A'}">${parentHead?.name || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button class="link-style edit-expense-sub-head" data-id="${subHead.id}">Edit</button>
+                        <button class="link-style ml-3 delete-expense-sub-head" style="color: var(--button-danger-bg);" data-id="${subHead.id}">Delete</button>
+                    </td>`;
+                expenseSubHeadsTableBody.appendChild(tr);
+            });
+        }
+
+        expenseSubHeadsTableBody.addEventListener('click', (e) => {
+            if (e.target.classList.contains('edit-expense-sub-head')) {
+                state.editingItemId = e.target.dataset.id;
+                const subHead = state.expenseSubHeads.find(sh => sh.id === state.editingItemId);
+                if (subHead) {
+                    $('#expenseSubHeadModalTitle').textContent = 'Edit Expense Sub-Head';
+                    $('#expenseSubHeadId').value = subHead.id;
+                    populateParentExpenseHeadDropdowns(parentExpenseHeadDropdownModal);
+                    parentExpenseHeadDropdownModal.value = subHead.parentHeadId;
+                    $('#expenseSubHeadName').value = subHead.name;
+                    openModal(expenseSubHeadModal);
+                }
+            } else if (e.target.classList.contains('delete-expense-sub-head')) {
+                 const subHeadId = e.target.dataset.id;
+                 const subHead = state.expenseSubHeads.find(sh => sh.id === subHeadId);
+                showConfirmationModal('Delete Expense Sub-Head', `Are you sure you want to delete "${subHead.name}"? This will also delete associated transactions.`, () => deleteExpenseSubHead(subHeadId));
+            }
+        });
+
+        function deleteExpenseSubHead(id) {
+            state.transactions = state.transactions.filter(t => !(t.type === 'expense' && t.subHeadId === id));
+            state.expenseSubHeads = state.expenseSubHeads.filter(sh => sh.id !== id);
+
+            saveData(STORAGE_KEYS.EXPENSE_SUB_HEADS, state.expenseSubHeads);
+            saveData(STORAGE_KEYS.TRANSACTIONS, state.transactions);
+
+            renderExpenseSubHeads(); renderDashboard();
+            showToast('Expense sub-head and associated transactions deleted.', 'success');
+        }
+
+        // --- DATA MANAGEMENT (Export/Import) ---
+        const exportDataBtn = $('#exportDataBtn');
+        const importFileEl = $('#importFile');
+        const importDataBtn = $('#importDataBtn');
+
+        exportDataBtn.addEventListener('click', () => {
+            const dataToExport = {
+                incomeHeads: state.incomeHeads, expenseHeads: state.expenseHeads,
+                incomeSubHeads: state.incomeSubHeads, expenseSubHeads: state.expenseSubHeads,
+                transactions: state.transactions,
+                // Optionally include theme and shader if you want them in export
+                // activeTheme: loadData(STORAGE_KEYS.ACTIVE_THEME),
+                // activeShader: loadData(STORAGE_KEYS.ACTIVE_SHADER)
+            };
+            const dataStr = JSON.stringify(dataToExport, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const exportFileDefaultName = `expense_tracker_data_${new Date().toISOString().slice(0,10)}.json`;
+
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            showToast('Data exported successfully.', 'success');
+        });
+
+        importDataBtn.addEventListener('click', () => {
+            const file = importFileEl.files[0];
+            if (!file) { showToast('Please select a JSON file to import.', 'warning'); return; }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const importedData = JSON.parse(event.target.result);
+                    // Validate the structure of importedData
+                    if (typeof importedData === 'object' && importedData !== null &&
+                        Array.isArray(importedData.incomeHeads) &&
+                        Array.isArray(importedData.expenseHeads) &&
+                        Array.isArray(importedData.incomeSubHeads) &&
+                        Array.isArray(importedData.expenseSubHeads) &&
+                        Array.isArray(importedData.transactions)
+                    ) {
+                        showConfirmationModal('Import Data', 'Are you sure you want to import this data? This will overwrite all current data.', () => {
+                            state.incomeHeads = importedData.incomeHeads;
+                            state.expenseHeads = importedData.expenseHeads;
+                            state.incomeSubHeads = importedData.incomeSubHeads;
+                            state.expenseSubHeads = importedData.expenseSubHeads;
+                            state.transactions = importedData.transactions;
+
+                            // Save all imported data parts
+                            saveData(STORAGE_KEYS.INCOME_HEADS, state.incomeHeads);
+                            saveData(STORAGE_KEYS.EXPENSE_HEADS, state.expenseHeads);
+                            saveData(STORAGE_KEYS.INCOME_SUB_HEADS, state.incomeSubHeads);
+                            saveData(STORAGE_KEYS.EXPENSE_SUB_HEADS, state.expenseSubHeads);
+                            saveData(STORAGE_KEYS.TRANSACTIONS, state.transactions);
+
+                            // If theme/shader were part of export and you want to import them:
+                            // if (importedData.activeTheme) applyTheme(importedData.activeTheme);
+                            // if (importedData.activeShader) applyShader(importedData.activeShader);
+
+                            initializeUI(true); // Re-initialize UI, skip initial theme/shader load as they might be set by import
+                            navigateTo('dashboard'); // Go to dashboard to see changes
+                            showToast('Data imported successfully. Application has been updated.', 'success');
+                        });
+                    } else {
+                        showToast('Invalid file format or missing required data arrays.', 'error');
+                    }
+                } catch (error) {
+                    showToast('Error reading or parsing JSON file.', 'error');
+                    console.error("Import error:", error);
+                } finally {
+                    importFileEl.value = '';
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // --- DASHBOARD & TRANSACTIONS ---
+        const addTransactionForm = $('#addTransactionForm');
+        const transactionTypeDropdown = $('#transactionType');
+        const transactionHeadDropdown = $('#transactionHead');
+        const transactionSubHeadDropdown = $('#transactionSubHead');
+        const dashboardTransactionsTableBody = $('#dashboardTransactionsTableBody'); // Changed from transactionsTableBody
+        const totalIncomeDisplay = $('#totalIncomeDisplay');
+        const totalExpenditureDisplay = $('#totalExpenditureDisplay');
+        const balanceDisplay = $('#balanceDisplay');
+
+        // Dashboard transaction filters
+        const dashboardSearchEl = $('#dashboardSearch');
+        const dashboardSortDateEl = $('#dashboardSortDate');
+        const dashboardSortAmountEl = $('#dashboardSortAmount');
+        const dashboardSortAddedDateEl = $('#dashboardSortAddedDate');
+
+
+        function populateTransactionHeadDropdowns() {
+            const type = transactionTypeDropdown.value;
+            const heads = type === 'income' ? state.incomeHeads : state.expenseHeads;
+
+            transactionHeadDropdown.innerHTML = heads.length > 0 ? '<option value="">-- Select Head --</option>' : `<option value="">-- No ${type} Heads Available --</option>`;
+            heads.forEach(head => {
+                const option = document.createElement('option');
+                option.value = head.id; option.textContent = head.name;
+                transactionHeadDropdown.appendChild(option);
+            });
+            transactionHeadDropdown.dispatchEvent(new Event('change')); // Trigger sub-head population
+        }
+
+        function populateTransactionSubHeadDropdowns() {
+            const type = transactionTypeDropdown.value;
+            const selectedHeadId = transactionHeadDropdown.value;
+            let subHeads = [];
+
+            if (selectedHeadId) {
+                subHeads = type === 'income'
+                    ? state.incomeSubHeads.filter(sh => sh.parentHeadId === selectedHeadId)
+                    : state.expenseSubHeads.filter(sh => sh.parentHeadId === selectedHeadId);
+            }
+
+            transactionSubHeadDropdown.innerHTML = '<option value="">-- Select Sub-Head (Optional) --</option>';
+            if (subHeads.length > 0) {
+                 subHeads.forEach(subHead => {
+                    const option = document.createElement('option');
+                    option.value = subHead.id; option.textContent = subHead.name;
+                    transactionSubHeadDropdown.appendChild(option);
+                });
+            } else if (selectedHeadId && (type === 'income' ? state.incomeHeads : state.expenseHeads).find(h => h.id === selectedHeadId)) {
+                // Only show "no sub-heads" if a valid head is selected that genuinely has no sub-heads.
+                // This avoids showing it when "-- Select Head --" is chosen.
+                const parentHeadExists = (type === 'income' ? state.incomeHeads : state.expenseHeads).some(h => h.id === selectedHeadId);
+                if (parentHeadExists) {
+                    transactionSubHeadDropdown.innerHTML = '<option value="">-- No Sub-Heads for this Head --</option>';
+                }
+            }
+        }
+
+        transactionTypeDropdown.addEventListener('change', populateTransactionHeadDropdowns);
+        transactionHeadDropdown.addEventListener('change', populateTransactionSubHeadDropdowns);
+
+        addTransactionForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const type = transactionTypeDropdown.value;
+            const headId = transactionHeadDropdown.value;
+            const subHeadId = transactionSubHeadDropdown.value;
+            const amount = parseFloat($('#transactionAmount').value);
+            const date = $('#transactionDate').value;
+            const description = $('#transactionDescription').value.trim();
+
+            if (!headId) { showToast(`Please select a ${type} head.`, 'error'); return; }
+            if (isNaN(amount) || amount <= 0) { showToast('Please enter a valid positive amount.', 'error'); return; }
+            if (!date) { showToast('Please select a date.', 'error'); return; }
+
+            state.transactions.push({
+                id: `t-${Date.now()}`, type, headId,
+                subHeadId: subHeadId || null, amount, date, description,
+                createdAt: Date.now() // Explicitly store creation timestamp
+            });
+            saveData(STORAGE_KEYS.TRANSACTIONS, state.transactions);
+            renderDashboard(); // This will now render all transactions with filters
+            addTransactionForm.reset();
+            $('#transactionDate').valueAsDate = new Date();
+            populateTransactionHeadDropdowns(); // Reset dropdowns
+            showToast(`${type.charAt(0).toUpperCase() + type.slice(1)} transaction added.`, 'success');
+        });
+
+        function renderDashboardTransactions() {
+            dashboardTransactionsTableBody.innerHTML = '';
+            let transactionsToDisplay = [...state.transactions];
+
+            // 1. Apply Search Filter
+            const searchTerm = dashboardSearchEl.value.toLowerCase().trim();
+            if (searchTerm) {
+                transactionsToDisplay = transactionsToDisplay.filter(t => {
+                    const head = (t.type === 'income' ? state.incomeHeads : state.expenseHeads).find(h => h.id === t.headId);
+                    const subHead = t.subHeadId ? (t.type === 'income' ? state.incomeSubHeads : state.expenseSubHeads).find(sh => sh.id === t.subHeadId) : null;
+                    const transactionDate = new Date(t.date).toLocaleDateString().toLowerCase();
+
+                    return (t.description && t.description.toLowerCase().includes(searchTerm)) ||
+                           (head && head.name.toLowerCase().includes(searchTerm)) ||
+                           (subHead && subHead.name.toLowerCase().includes(searchTerm)) ||
+                           transactionDate.includes(searchTerm);
+                });
+            }
+
+            // 2. Apply Sorting
+            const sortDateBy = dashboardSortDateEl.value;
+            const sortAmountBy = dashboardSortAmountEl.value;
+            const sortAddedDateBy = dashboardSortAddedDateEl.value;
+
+            // Prioritize one sort at a time or implement multi-sort logic if needed.
+            // For simplicity, let's assume one primary sort. The last changed sort takes precedence.
+            // Or, establish a default sort order (e.g., by transaction date desc) and then apply others.
+            // Here, we'll apply them sequentially, which might not be ideal for combined sorting.
+            // A more robust solution would be to pick one active sorter.
+            // For now, let's use a primary sort: date added as default, then others.
+
+            if (sortAddedDateBy === 'added_asc') {
+                transactionsToDisplay.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+            } else { // Default to added_desc
+                transactionsToDisplay.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            }
+
+            if (sortDateBy === 'date_asc') {
+                transactionsToDisplay.sort((a, b) => new Date(a.date) - new Date(b.date));
+            } else if (sortDateBy === 'date_desc') {
+                transactionsToDisplay.sort((a, b) => new Date(b.date) - new Date(a.date));
+            }
+
+            if (sortAmountBy === 'amount_asc') {
+                transactionsToDisplay.sort((a, b) => a.amount - b.amount);
+            } else if (sortAmountBy === 'amount_desc') {
+                transactionsToDisplay.sort((a, b) => b.amount - a.amount);
+            }
+
+
+            if (transactionsToDisplay.length === 0) {
+                dashboardTransactionsTableBody.innerHTML = `<tr><td colspan="7" class="px-6 py-4 text-center" style="color: var(--text-secondary);">No transactions found matching your criteria.</td></tr>`; return;
+            }
+
+            transactionsToDisplay.forEach(t => {
+                const head = (t.type === 'income' ? state.incomeHeads : state.expenseHeads).find(h => h.id === t.headId);
+                let subHead = null;
+                if (t.subHeadId) {
+                    subHead = (t.type === 'income' ? state.incomeSubHeads : state.expenseSubHeads).find(sh => sh.id === t.subHeadId);
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: var(--text-secondary);">${new Date(t.date).toLocaleDateString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" style="color: ${t.type === 'income' ? 'var(--button-success-bg)' : 'var(--button-danger-bg)'};">${t.type.charAt(0).toUpperCase() + t.type.slice(1)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" title="${head?.name || 'N/A'}">${head?.name || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" style="color: var(--text-secondary);" title="${subHead?.name || ''}">${subHead?.name || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold" style="color: ${t.type === 'income' ? 'var(--button-success-bg)' : 'var(--button-danger-bg)'};">৳${t.amount.toFixed(2)}</td>
+                    <td class="px-6 py-4 text-sm table-cell-truncate" style="color: var(--text-secondary);" title="${t.description || ''}">${t.description || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button class="link-style delete-transaction" style="color: var(--button-danger-bg);" data-id="${t.id}" data-type="${t.type}">Delete</button>
+                    </td>`;
+                dashboardTransactionsTableBody.appendChild(tr);
+            });
+        }
+
+        // Event listeners for dashboard filters
+        [dashboardSearchEl, dashboardSortDateEl, dashboardSortAmountEl, dashboardSortAddedDateEl].forEach(el => {
+            if(el) el.addEventListener('input', renderDashboardTransactions); // 'input' for search, 'change' for selects
+            if(el && el.tagName === 'SELECT') el.addEventListener('change', renderDashboardTransactions);
+        });
+
+
+        dashboardTransactionsTableBody.addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-transaction')) {
+                const transactionId = e.target.dataset.id;
+                const transaction = state.transactions.find(t => t.id === transactionId);
+                showConfirmationModal('Delete Transaction', `Are you sure you want to delete this ${transaction.type} transaction of ৳${transaction.amount.toFixed(2)}?`, () => {
+                    state.transactions = state.transactions.filter(t => t.id !== transactionId);
+                    saveData(STORAGE_KEYS.TRANSACTIONS, state.transactions);
+                    renderDashboard(); // Re-render dashboard which includes the transaction table
+                    if (reportsView.classList.contains('hidden') === false) generateDetailedReport(); // Also update reports if visible
+                    showToast('Transaction deleted.', 'success');
+                });
+            }
+        });
+
+        function calculateGlobalSummary() {
+            let totalIncome = 0, totalExpenditure = 0;
+            state.transactions.forEach(t => {
+                if (t.type === 'income') totalIncome += t.amount;
+                else totalExpenditure += t.amount;
+            });
+            const balance = totalIncome - totalExpenditure;
+
+            totalIncomeDisplay.textContent = totalIncome.toFixed(2);
+            totalExpenditureDisplay.textContent = totalExpenditure.toFixed(2);
+            balanceDisplay.textContent = balance.toFixed(2);
+        }
+
+        function renderDashboard() {
+            if (dashboardView.classList.contains('hidden')) return;
+            populateTransactionHeadDropdowns();
+            renderDashboardTransactions(); // This function now handles all transactions with filters
+            calculateGlobalSummary();
+            if (!$('#transactionDate').value) $('#transactionDate').valueAsDate = new Date();
+        }
+
+        // --- REPORTS SECTION ---
+        const reportStartDateEl = $('#reportStartDate');
+        const reportEndDateEl = $('#reportEndDate');
+        const reportHeadFilterEl = $('#reportHeadFilter');
+        const reportSearchTermEl = $('#reportSearchTerm');
+        const reportSortByEl = $('#reportSortBy');
+        const generateDetailedReportBtn = $('#generateDetailedReportBtn');
+        const generateHeadsOverviewBtn = $('#generateHeadsOverviewBtn');
+        const reportResultsTableBody = $('#reportResultsTableBody');
+        const headsOverviewTableBody = $('#headsOverviewTableBody');
+        const reportTotalIncomeEl = $('#reportTotalIncome');
+        const reportTotalExpenseEl = $('#reportTotalExpense');
+        const detailedReportOutputEl = $('#detailedReportOutput');
+        const headsOverviewReportOutputEl = $('#headsOverviewReportOutput');
+
+
+        function populateAllHeadFilterDropdowns() {
+            reportHeadFilterEl.innerHTML = '<option value="all">All Heads</option>';
+            const incomeOptGroup = document.createElement('optgroup');
+            incomeOptGroup.label = "Income Heads";
+            state.incomeHeads.forEach(h => {
+                const opt = document.createElement('option');
+                opt.value = h.id; opt.textContent = h.name;
+                incomeOptGroup.appendChild(opt);
+            });
+            if (state.incomeHeads.length > 0) reportHeadFilterEl.appendChild(incomeOptGroup);
+
+            const expenseOptGroup = document.createElement('optgroup');
+            expenseOptGroup.label = "Expense Heads";
+            state.expenseHeads.forEach(h => {
+                const opt = document.createElement('option');
+                opt.value = h.id; opt.textContent = h.name;
+                expenseOptGroup.appendChild(opt);
+            });
+            if (state.expenseHeads.length > 0) reportHeadFilterEl.appendChild(expenseOptGroup);
+        }
+
+        function generateDetailedReport() {
+            detailedReportOutputEl.classList.remove('hidden');
+            headsOverviewReportOutputEl.classList.add('hidden');
+            reportResultsTableBody.innerHTML = '';
+
+            let filteredTransactions = [...state.transactions];
+            const startDate = reportStartDateEl.value ? new Date(reportStartDateEl.value) : null;
+            const endDate = reportEndDateEl.value ? new Date(reportEndDateEl.value) : null;
+            if(startDate) startDate.setHours(0,0,0,0);
+            if(endDate) endDate.setHours(23,59,59,999);
+
+            const headFilter = reportHeadFilterEl.value;
+            const searchTerm = reportSearchTermEl.value.toLowerCase().trim();
+            const sortBy = reportSortByEl.value;
+
+            if (startDate) filteredTransactions = filteredTransactions.filter(t => new Date(t.date) >= startDate);
+            if (endDate) filteredTransactions = filteredTransactions.filter(t => new Date(t.date) <= endDate);
+
+            if (headFilter !== 'all') {
+                filteredTransactions = filteredTransactions.filter(t => t.headId === headFilter);
+            }
+
+            if (searchTerm) {
+                filteredTransactions = filteredTransactions.filter(t => {
+                    const head = (t.type === 'income' ? state.incomeHeads : state.expenseHeads).find(h => h.id === t.headId);
+                    const subHead = t.subHeadId ? (t.type === 'income' ? state.incomeSubHeads : state.expenseSubHeads).find(sh => sh.id === t.subHeadId) : null;
+                    return (t.description && t.description.toLowerCase().includes(searchTerm)) ||
+                           (head && head.name.toLowerCase().includes(searchTerm)) ||
+                           (subHead && subHead.name.toLowerCase().includes(searchTerm));
+                });
+            }
+
+            switch (sortBy) {
+                case 'date_asc': filteredTransactions.sort((a, b) => new Date(a.date) - new Date(b.date)); break;
+                case 'date_desc': filteredTransactions.sort((a, b) => new Date(b.date) - new Date(a.date)); break;
+                case 'amount_asc': filteredTransactions.sort((a, b) => a.amount - b.amount); break;
+                case 'amount_desc': filteredTransactions.sort((a, b) => b.amount - a.amount); break;
+            }
+
+            let reportIncome = 0;
+            let reportExpense = 0;
+
+            if (filteredTransactions.length === 0) {
+                reportResultsTableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-10 text-center" style="color: var(--text-secondary);">No transactions found matching your criteria.</td></tr>`;
+            } else {
+                filteredTransactions.forEach(t => {
+                    if (t.type === 'income') reportIncome += t.amount;
+                    else reportExpense += t.amount;
+
+                    const head = (t.type === 'income' ? state.incomeHeads : state.expenseHeads).find(h => h.id === t.headId);
+                    let subHead = null;
+                    if (t.subHeadId) {
+                        subHead = (t.type === 'income' ? state.incomeSubHeads : state.expenseSubHeads).find(sh => sh.id === t.subHeadId);
+                    }
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: var(--text-secondary);">${new Date(t.date).toLocaleDateString()}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" style="color: ${t.type === 'income' ? 'var(--button-success-bg)' : 'var(--button-danger-bg)'};">${t.type.charAt(0).toUpperCase() + t.type.slice(1)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" title="${head?.name || 'N/A'}">${head?.name || 'N/A'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm table-cell-truncate" style="color: var(--text-secondary);" title="${subHead?.name || ''}">${subHead?.name || '-'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold" style="color: ${t.type === 'income' ? 'var(--button-success-bg)' : 'var(--button-danger-bg)'};">৳${t.amount.toFixed(2)}</td>
+                        <td class="px-6 py-4 text-sm table-cell-truncate" style="color: var(--text-secondary);" title="${t.description || ''}">${t.description || '-'}</td>
+                    `;
+                    reportResultsTableBody.appendChild(tr);
+                });
+            }
+            reportTotalIncomeEl.textContent = reportIncome.toFixed(2);
+            reportTotalExpenseEl.textContent = reportExpense.toFixed(2);
+        }
+
+        function generateHeadsOverviewReport() {
+            detailedReportOutputEl.classList.add('hidden');
+            headsOverviewReportOutputEl.classList.remove('hidden');
+            headsOverviewTableBody.innerHTML = '';
+
+            let transactionsToConsider = [...state.transactions];
+            const startDate = reportStartDateEl.value ? new Date(reportStartDateEl.value) : null;
+            const endDate = reportEndDateEl.value ? new Date(reportEndDateEl.value) : null;
+            if(startDate) startDate.setHours(0,0,0,0);
+            if(endDate) endDate.setHours(23,59,59,999);
+
+            if (startDate) transactionsToConsider = transactionsToConsider.filter(t => new Date(t.date) >= startDate);
+            if (endDate) transactionsToConsider = transactionsToConsider.filter(t => new Date(t.date) <= endDate);
+
+            const overview = {};
+
+            transactionsToConsider.forEach(t => {
+                const headKey = `${t.headId}_${t.type}`;
+                if (!overview[headKey]) {
+                    const headDetails = (t.type === 'income' ? state.incomeHeads : state.expenseHeads).find(h => h.id === t.headId);
+                    if (!headDetails) return;
+                    overview[headKey] = { name: headDetails.name, type: t.type, total: 0, subHeads: {} };
+                }
+                overview[headKey].total += t.amount;
+
+                if (t.subHeadId) {
+                    const subHeadDetails = (t.type === 'income' ? state.incomeSubHeads : state.expenseSubHeads).find(sh => sh.id === t.subHeadId);
+                    if (!subHeadDetails) return;
+
+                    if (!overview[headKey].subHeads[t.subHeadId]) {
+                        overview[headKey].subHeads[t.subHeadId] = { name: subHeadDetails.name, total: 0 };
+                    }
+                    overview[headKey].subHeads[t.subHeadId].total += t.amount;
+                }
+            });
+
+            let reportIncome = 0;
+            let reportExpense = 0;
+            let hasData = false;
+
+            const sortedHeadKeys = Object.keys(overview).sort((a, b) => {
+                if (overview[a].type !== overview[b].type) {
+                    return overview[a].type === 'income' ? -1 : 1;
+                }
+                return overview[a].name.localeCompare(overview[b].name);
+            });
+
+
+            sortedHeadKeys.forEach(headKey => {
+                hasData = true;
+                const headData = overview[headKey];
+                if (headData.type === 'income') reportIncome += headData.total;
+                else reportExpense += headData.total;
+
+                let tr = document.createElement('tr');
+                tr.style.fontWeight = '600';
+                tr.style.color = headData.type === 'income' ? 'var(--button-success-bg)' : 'var(--button-danger-bg)';
+
+                tr.innerHTML = `
+                    <td class="px-6 py-3 whitespace-nowrap text-sm">${headData.type.charAt(0).toUpperCase() + headData.type.slice(1)}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-sm">${headData.name}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-sm" style="color: var(--text-secondary);">-</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-sm">৳${headData.total.toFixed(2)}</td>
+                `;
+                headsOverviewTableBody.appendChild(tr);
+
+                const sortedSubHeadKeys = Object.keys(headData.subHeads).sort((a,b) => headData.subHeads[a].name.localeCompare(headData.subHeads[b].name));
+
+                sortedSubHeadKeys.forEach(subHeadKey => {
+                    const subHeadData = headData.subHeads[subHeadKey];
+                    tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="px-6 py-3 whitespace-nowrap text-sm" style="color: var(--text-secondary);"></td>
+                        <td class="pl-10 pr-6 py-3 whitespace-nowrap text-sm" style="color: var(--text-secondary);">${headData.name}</td>
+                        <td class="px-6 py-3 whitespace-nowrap text-sm">${subHeadData.name}</td>
+                        <td class="px-6 py-3 whitespace-nowrap text-sm" style="color: var(--text-secondary);">৳${subHeadData.total.toFixed(2)}</td>
+                    `;
+                    headsOverviewTableBody.appendChild(tr);
+                });
+            });
+
+            if (!hasData) {
+                 headsOverviewTableBody.innerHTML = `<tr><td colspan="4" class="px-6 py-10 text-center" style="color: var(--text-secondary);">No data for overview with current filters.</td></tr>`;
+            }
+
+            reportTotalIncomeEl.textContent = reportIncome.toFixed(2);
+            reportTotalExpenseEl.textContent = reportExpense.toFixed(2);
+        }
+
+        generateDetailedReportBtn.addEventListener('click', generateDetailedReport);
+        generateHeadsOverviewBtn.addEventListener('click', generateHeadsOverviewReport);
+
+        [reportStartDateEl, reportEndDateEl, reportHeadFilterEl, reportSearchTermEl, reportSortByEl].forEach(el => {
+            el.addEventListener('change', () => { // Changed to 'change' for selects, 'input' for text
+                if (!detailedReportOutputEl.classList.contains('hidden')) {
+                    generateDetailedReport();
+                } else if (!headsOverviewReportOutputEl.classList.contains('hidden')) {
+                     if (el === reportStartDateEl || el === reportEndDateEl) {
+                        generateHeadsOverviewReport();
+                    }
+                }
+            });
+            if (el === reportSearchTermEl) { // Add input listener for search term specifically
+                 el.addEventListener('input', () => {
+                    if (!detailedReportOutputEl.classList.contains('hidden')) {
+                        generateDetailedReport();
+                    }
+                 });
+            }
+        });
+
+
+        function renderReportsView() {
+            if (reportsView.classList.contains('hidden')) return;
+            populateAllHeadFilterDropdowns();
+            const today = new Date();
+            const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            if (!reportStartDateEl.value) reportStartDateEl.valueAsDate = firstDayOfMonth;
+            if (!reportEndDateEl.value) reportEndDateEl.valueAsDate = today;
+
+            detailedReportOutputEl.classList.remove('hidden');
+            headsOverviewReportOutputEl.classList.add('hidden');
+            reportResultsTableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-10 text-center" style="color: var(--text-secondary);">Use the filters above and click "View Transactions" to generate a report.</td></tr>`;
+            headsOverviewTableBody.innerHTML = `<tr><td colspan="4" class="px-6 py-10 text-center" style="color: var(--text-secondary);">Use the date filters and click "View Heads & Sub-Heads Overview" to generate this report.</td></tr>`;
+            reportTotalIncomeEl.textContent = '0.00';
+            reportTotalExpenseEl.textContent = '0.00';
+        }
+
+
+        // --- INITIALIZATION ---
+        function loadAllData() {
+            state.incomeHeads = loadData(STORAGE_KEYS.INCOME_HEADS, []);
+            state.expenseHeads = loadData(STORAGE_KEYS.EXPENSE_HEADS, []);
+            state.incomeSubHeads = loadData(STORAGE_KEYS.INCOME_SUB_HEADS, []);
+            state.expenseSubHeads = loadData(STORAGE_KEYS.EXPENSE_SUB_HEADS, []);
+            state.transactions = loadData(STORAGE_KEYS.TRANSACTIONS, []);
+        }
+
+        function initializeUI(isFullReinit = false) {
+            if (!isFullReinit) { // Only on first load
+                loadAndApplyTheme();
+                loadAndApplyShader();
+            }
+            loadAllData(); // Load all data from localStorage
+
+            // Populate dropdowns that might be needed across views or for initial setup
+            populateParentIncomeHeadDropdowns(filterParentIncomeHeadDropdown);
+            populateParentExpenseHeadDropdowns(filterParentExpenseHeadDropdown);
+            populateAllHeadFilterDropdowns(); // For reports view
+
+            // Determine the view to show
+            const lastView = loadData(STORAGE_KEYS.ACTIVE_VIEW, 'dashboard');
+            navigateTo(lastView); // This will also call render functions for the active view
+
+            // If settings was the last view, ensure its correct tab is also rendered
+            if (lastView === 'settings') {
+                const lastSettingsTab = loadData(STORAGE_KEYS.ACTIVE_SETTINGS_TAB, 'incomeHeadsTab');
+                activateSettingsTab(lastSettingsTab); // This calls specific render functions for tabs
+            } else {
+                // Ensure selectors for themes/shaders are populated if settings isn't the active view,
+                // as activateSettingsTab won't run for them initially.
+                populateThemeSelector();
+                populateShaderSelector();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => initializeUI());
+
+    </script>
+</body>
+</html>
